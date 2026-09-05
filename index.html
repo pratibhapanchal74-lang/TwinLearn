@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TwinLearn — AI Digital Twin Learning Platform</title>
+  <meta name="description" content="AI-powered Digital Twin learning platform that predicts and prevents student failure through personalized adaptive learning paths." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="tooltip" class="tooltip"></div>
+
+<div id="app">
+
+  <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+  <nav id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <div class="logo-icon">🧠</div>
+        <div class="logo-text">
+          TwinLearn
+          <span>Digital Twin Platform</span>
+        </div>
+      </div>
+      <div class="twin-status-badge">
+        <span class="dot"></span>
+        Twin Active · v3.14
+      </div>
+    </div>
+
+    <div class="sidebar-student">
+      <div class="student-mini">
+        <div class="avatar">AS</div>
+        <div class="student-mini-info">
+          <div class="name">Arjun Sharma</div>
+          <div class="grade">Grade 11 · Math Focus</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="nav-section-label">Student View</div>
+
+      <div class="nav-item active" data-view="dashboard" id="nav-dashboard">
+        <span class="nav-icon">🧠</span>
+        <span class="nav-label">Digital Twin</span>
+      </div>
+
+      <div class="nav-item" data-view="predictions" id="nav-predictions">
+        <span class="nav-icon">📈</span>
+        <span class="nav-label">Predictions</span>
+        <span class="nav-badge">!</span>
+      </div>
+
+      <div class="nav-item" data-view="planner" id="nav-planner">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Study Planner</span>
+      </div>
+
+      <div class="nav-item" data-view="quiz" id="nav-quiz">
+        <span class="nav-icon">🎯</span>
+        <span class="nav-label">Adaptive Quiz</span>
+      </div>
+
+      <div class="nav-item" data-view="tutor" id="nav-tutor">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-label">AI Tutor</span>
+      </div>
+
+      <div class="nav-item" data-view="simulation" id="nav-simulation">
+        <span class="nav-icon">🔬</span>
+        <span class="nav-label">Simulation</span>
+      </div>
+
+      <div class="nav-item" data-view="explainability" id="nav-explainability">
+        <span class="nav-icon">🧩</span>
+        <span class="nav-label">Explainable AI</span>
+      </div>
+
+      <div class="nav-section-label">Admin</div>
+
+      <div class="nav-item" data-view="teacher" id="nav-teacher">
+        <span class="nav-icon">👨‍🏫</span>
+        <span class="nav-label">Teacher View</span>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div style="font-size:10px; color:var(--text-muted); line-height:1.6;">
+        Twin Accuracy: <span style="color:var(--emerald); font-weight:600;">91.2%</span><br/>
+        Last sync: <span style="color:var(--cyan);">2 min ago</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ MAIN ════════════════════════════════════════════════ -->
+  <div id="main">
+
+    <!-- Top Bar -->
+    <div id="topbar">
+      <div class="topbar-title" id="topbar-title">
+        🧠 Digital Twin Dashboard
+        <span>Live Learning Model</span>
+      </div>
+      <div class="topbar-right">
+        <div class="vitals-mini">
+          <div class="vital-chip">🔥 <span class="val">12</span> day streak</div>
+          <div class="vital-chip">⚡ <span class="val">67%</span> mastery</div>
+          <div class="vital-chip">🎯 <span class="val">74</span> focus score</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div id="content">
+
+      <!-- ╔══════════════════════════════════════════╗ -->
+      <!-- ║   VIEW 1: DIGITAL TWIN DASHBOARD        ║ -->
+      <!-- ╚══════════════════════════════════════════╝ -->
+      <div class="view active" id="view-dashboard">
+        <div class="view-header">
+          <div class="view-title gradient-text">Digital Twin Dashboard</div>
+          <div class="view-subtitle">Live AI model of Arjun's knowledge state, cognitive profile, and learning behaviour</div>
+        </div>
+
+        <!-- Vitals Row -->
+        <div class="grid-4 mb-6">
+          <div class="stat-card purple">
+            <div class="stat-icon">🎓</div>
+            <div class="stat-label">Overall Mastery</div>
+            <div class="stat-value gradient-text">67%</div>
+            <div class="stat-sub"><span class="down">↓ 3% this week</span></div>
+          </div>
+          <div class="stat-card amber">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-label">Study Streak</div>
+            <div class="stat-value" style="color:var(--amber)">12</div>
+            <div class="stat-sub" style="color:var(--text-secondary)">days consecutive</div>
+          </div>
+          <div class="stat-card cyan">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-label">Focus Score</div>
+            <div class="stat-value" style="color:var(--cyan)">74</div>
+            <div class="stat-sub"><span class="up">↑ +6 this week</span></div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-label">Today's Learning</div>
+            <div class="stat-value" style="color:var(--emerald)">2.5h</div>
+            <div class="stat-sub" style="color:var(--text-secondary)">284h total</div>
+          </div>
+        </div>
+
+        <!-- Knowledge Graph + Cognitive Profile -->
+        <div class="grid-2 mb-6" style="grid-template-columns:1.6fr 1fr">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🕸️ Knowledge Graph</div>
+              <span class="card-badge badge-purple">Live</span>
+            </div>
+            <canvas id="knowledge-graph-canvas"></canvas>
+            <div class="graph-legend mt-4">
+              <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div> Mastered (80%+)</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div> Good (60–79%)</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> Average (40–59%)</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Weak (20–39%)</div>
+              <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> At Risk (&lt;20%)</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🧬 Cognitive Profile</div>
+              <span class="card-badge badge-cyan">Twin Model</span>
+            </div>
+            <canvas id="cognitive-radar-chart" style="max-height:280px"></canvas>
+          </div>
+        </div>
+
+        <!-- Forgetting Curve + Concept Mastery -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">📉 Memory Retention Curve</div>
+              <span class="card-badge badge-amber">Ebbinghaus Model</span>
+            </div>
+            <canvas id="forgetting-curve-chart" style="max-height:220px"></canvas>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">📊 Concept Mastery Breakdown</div>
+              <span class="card-badge badge-purple">12 concepts</span>
+            </div>
+            <canvas id="mastery-bar-chart" style="max-height:220px"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ╔══════════════════════════════════════════╗ -->
+      <!-- ║   VIEW 2: PREDICTIONS & EARLY WARNING   ║ -->
+      <!-- ╚══════════════════════════════════════════╝ -->
+      <div class="view" id="view-predictions">
+        <div class="view-header">
+          <div class="view-title gradient-text">Predictions & Early Warning</div>
+          <div class="view-subtitle">AI-predicted performance trajectory and at-risk concept identification</div>
+        </div>
+
+        <div class="alert-banner critical mb-4">
+          <div class="alert-icon">🚨</div>
+          <div class="alert-text">
+            <strong>Critical Alert — Intervention Required</strong>
+            Arjun is predicted to score below 50% in the next Calculus exam (in 10 days) unless prerequisite gaps in Derivatives and Limits are addressed within 3 days.
+          </div>
+        </div>
+
+        <div class="alert-banner warning mb-6">
+          <div class="alert-icon">⚠️</div>
+          <div class="alert-text">
+            <strong>Cognitive Overload Risk Rising</strong>
+            Burnout risk increased by 8% this week. Recommend reducing session lengths from 60 min to 40 min.
+          </div>
+        </div>
+
+        <!-- Performance Timeline -->
+        <div class="card mb-6">
+          <div class="card-header">
+            <div class="card-title">📈 Performance Prediction Timeline</div>
+            <div style="display:flex;gap:16px;font-size:12px;">
+              <span style="color:var(--cyan)">── Actual</span>
+              <span style="color:var(--red)">── Without Intervention</span>
+              <span style="color:var(--emerald)">── With AI Intervention</span>
+            </div>
+          </div>
+          <canvas id="prediction-chart" style="max-height:280px"></canvas>
+        </div>
+
+        <!-- Risk Gauges -->
+        <div class="grid-4 mb-6">
+          <div class="card" style="text-align:center">
+            <div class="card-title" style="justify-content:center;margin-bottom:16px">Exam Failure Risk</div>
+            <div class="gauge-container">
+              <div class="gauge-ring">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                  <circle id="gauge-failure" cx="50" cy="50" r="40" fill="none" stroke="#ef4444" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="251.3" stroke-linecap="round"/>
+                </svg>
+                <div class="gauge-center">
+                  <div class="gauge-value" style="color:#ef4444">34%</div>
+                  <div class="gauge-unit">risk</div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted)">+5% this week</div>
+            </div>
+          </div>
+
+          <div class="card" style="text-align:center">
+            <div class="card-title" style="justify-content:center;margin-bottom:16px">Dropout Risk</div>
+            <div class="gauge-container">
+              <div class="gauge-ring">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                  <circle id="gauge-dropout" cx="50" cy="50" r="40" fill="none" stroke="#f97316" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="251.3" stroke-linecap="round"/>
+                </svg>
+                <div class="gauge-center">
+                  <div class="gauge-value" style="color:#f97316">18%</div>
+                  <div class="gauge-unit">risk</div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--emerald)">-2% this week</div>
+            </div>
+          </div>
+
+          <div class="card" style="text-align:center">
+            <div class="card-title" style="justify-content:center;margin-bottom:16px">Burnout Risk</div>
+            <div class="gauge-container">
+              <div class="gauge-ring">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                  <circle id="gauge-burnout" cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="251.3" stroke-linecap="round"/>
+                </svg>
+                <div class="gauge-center">
+                  <div class="gauge-value" style="color:#f59e0b">45%</div>
+                  <div class="gauge-unit">risk</div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted)">+8% this week</div>
+            </div>
+          </div>
+
+          <div class="card" style="text-align:center">
+            <div class="card-title" style="justify-content:center;margin-bottom:16px">Frustration Index</div>
+            <div class="gauge-container">
+              <div class="gauge-ring">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                  <circle id="gauge-frustration" cx="50" cy="50" r="40" fill="none" stroke="#7c3aed" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="251.3" stroke-linecap="round"/>
+                </svg>
+                <div class="gauge-center">
+                  <div class="gauge-value" style="color:#a78bfa">38%</div>
+                  <div class="gauge-unit">index</div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted)">+3% this week</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Concept Warning Table -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">⚠️ At-Risk Concept Forecast</div>
+            <span class="card-badge badge-red">5 warnings</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Concept</th>
+                <th>Subject</th>
+                <th>Risk Level</th>
+                <th>Risk Score</th>
+                <th>Timeframe</th>
+                <th>Root Issue</th>
+                <th>Recommended Action</th>
+              </tr>
+            </thead>
+            <tbody id="warning-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ╔══════════════════════════════════════════╗ -->
+      <!-- ║   VIEW 3: STUDY PLANNER                 ║ -->
+      <!-- ╚══════════════════════════════════════════╝ -->
+      <div class="view" id="view-planner">
+        <div class="view-header">
+          <div class="view-title gradient-text">Personalized Study Planner</div>
+          <div class="view-subtitle">AI-generated weekly schedule optimized for your twin's learning profile</div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="planner-stats mb-6">
+          <div class="streak-card">
+            <div class="streak-num">🔥 12</div>
+            <div class="streak-info">Day Streak<br/><span style="color:var(--text-muted)">Keep it going!</span></div>
+          </div>
+          <div class="streak-card" style="flex:1.5">
+            <div style="flex:1">
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Today's Progress — 55 / 90 min</div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill fill-purple" style="width:61%"></div>
+              </div>
+            </div>
+            <div style="text-align:right;margin-left:16px">
+              <div class="font-display" style="font-size:24px;font-weight:700;color:var(--purple-light)">61%</div>
+              <div style="font-size:11px;color:var(--text-muted)">daily goal</div>
+            </div>
+          </div>
+          <div class="streak-card">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Predicted Exam Score<br/>(with this plan)</div>
+            <div class="font-display gradient-text" style="font-size:28px;font-weight:700">76%</div>
+          </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📅 This Week's AI-Optimized Schedule</div>
+            <div style="display:flex;gap:8px;font-size:11px;">
+              <span class="risk-pill risk-critical">🔴 Critical</span>
+              <span class="risk-pill risk-high">🟠 High</span>
+              <span class="risk-pill risk-medium">🟣 Medium</span>
+              <span class="risk-pill risk-low">🟢 Low</span>
+            </div>
+          </div>
+          <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+      </div>
+
+      <!-- ╔══════════════════════════════════════════╗ -->
+      <!-- ║   VIEW 4: ADAPTIVE QUIZ                 ║ -->
+      <!-- ╚══════════════════════════════════════════╝ -->
+      <div class="view" id="view-quiz">
+        <div class="view-header">
+          <div class="view-title gradient-text">Adaptive Quiz Engine</div>
+          <div class="view-subtitle">Questions selected in real-time based on your Digital Twin's knowledge gaps</div>
+        </div>
+
+        <div class="quiz-wrapper">
+          <div id="quiz-active-panel">
+            <div class="quiz-progress-header">
+              <span id="quiz-progress-label">Question 1 of 5</span>
+              <span id="quiz-score-label" style="color:var(--emerald)">Score: 0/0</span>
+            </div>
+            <div class="quiz-progress-bar">
+              <div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div>
+            </div>
+
+            <div class="card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+                <div class="quiz-topic-tag" id="quiz-topic-tag">📐 Derivatives</div>
+                <span class="quiz-difficulty diff-medium" id="quiz-difficulty">medium</span>
+              </div>
+
+              <div class="quiz-question-text" id="quiz-question-text">Loading question...</div>
+
+              <div class="quiz-options" id="quiz-options-grid"></div>
+
+              <div class="quiz-explanation" id="quiz-explanation" style="display:none"></div>
+
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                <button class="btn-primary" id="quiz-next-btn" style="display:none">Next Question →</button>
+                <button class="btn-secondary" id="quiz-submit-btn">Check Answer</button>
+                <button class="btn-secondary" id="quiz-skip-btn">Skip</button>
+              </div>
+
+              <div class="confidence-meter">
+                <div class="confidence-label">
+                  Twin Confidence Update
+                  <span id="confidence-val">Awaiting answer...</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill fill-cyan" id="confidence-bar" style="width:30%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="quiz-result-panel" style="display:none">
+            <div class="card quiz-result">
+              <div style="font-size:48px;margin-bottom:12px" id="result-emoji">🎉</div>
+              <div class="result-score" id="result-score">4/5</div>
+              <div class="result-label" id="result-label">Great performance!</div>
+              <div class="twin-update-notification mb-6">
+                🧠 Digital Twin updated — mastery scores recalculated
+              </div>
+              <div style="display:flex;gap:12px;justify-content:center">
+                <button class="btn-primary" id="quiz-restart-btn">🔄 New Quiz Session</button>
+                <button class="btn-secondary" id="quiz-review-btn">📊 View Twin Update</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ╔══════════════════════════════════════════╗ -->
+      <!-- ║   VIEW 5: AI TUTOR CHAT                 ║ -->
+      <!-- ╚══════════════════════════════════════════╝ -->
+      <div class="view" id="view-tutor">
+        <div class="view-header">
+          <div class="view-title gradient-text">AI Tutor</div>
+          <div class="view-subtitle">Aware of your full Digital Twin profile — personalized guidance in real-time</div>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="padding:20px 24px;border-bottom:1px solid var(--border)">
+            <div class="chat-header">
+              <div class="tutor-avatar">🤖</div>
+              <div class="tutor-info">
+                <div class="tutor-name">Ava — AI Tutor</div>
+                <div class="tutor-status">● Online · Twin-integrated · Aware of your 12 weak spots</div>
+              </div>
+              <div style="margin-left:auto;display:flex;gap:8px;">
+                <span class="card-badge badge-green">Twin-Aware</span>
+                <span class="card-badge badge-purple">GPT-4o</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:0 24px">
+            <div class="chat-messages" id="chat-messages" style="height:380px"></div>
+          </div>
+
+          <div style="padding:0 24px 8px">
+            <div class="chat-suggestions" id="chat-suggestions"></div>
+          </div>
+
+          <div style="padding:0 24px 20px">
+            <div class="chat-input-wrap">
+              <input type="text" class="chat-input" id="chat-input" placeholder="Ask Ava anything about your learning..." />
+              <button class="chat-send-btn" id="chat-send-btn">➤</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ╔══════════════════════════════════════════╗ -->
+      <!-- ║   VIEW 6: LEARNING SIMULATION           ║ -->
+      <!-- ╚══════════════════════════════════════════╝ -->
+      <div class="view" id="view-simulation">
+        <div class="view-header">
+          <div class="view-title gradient-text">Learning Simulation</div>
+          <div class="view-subtitle">Adjust study variables and see your predicted future score in real-time</div>
+        </div>
+
+        <div class="alert-banner info mb-6">
+          <div class="alert-icon">💡</div>
+          <div class="alert-text">
+            <strong>What-If Analysis</strong>
+            This simulation uses your Digital Twin model to predict how changes in study behaviour affect your exam performance. Adjust the sliders and see your projected score update live.
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Controls -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🎛️ Simulation Controls</div>
+              <span class="card-badge badge-cyan">Real-time</span>
+            </div>
+
+            <div class="sim-controls">
+              <div class="sim-slider-group">
+                <label>Daily Study Time (minutes) <span id="sim-time-val">30 min</span></label>
+                <input type="range" id="sim-time" min="10" max="120" value="30" step="5" />
+              </div>
+              <div class="sim-slider-group">
+                <label>Focus Level <span id="sim-focus-val">70%</span></label>
+                <input type="range" id="sim-focus" min="20" max="100" value="70" step="5" />
+              </div>
+              <div class="sim-slider-group">
+                <label>Spaced Repetition Adherence <span id="sim-spacing-val">50%</span></label>
+                <input type="range" id="sim-spacing" min="0" max="100" value="50" step="5" />
+              </div>
+              <div class="sim-slider-group">
+                <label>Calculus Priority Weight <span id="sim-priority-val">60%</span></label>
+                <input type="range" id="sim-priority" min="0" max="100" value="60" step="5" />
+              </div>
+            </div>
+
+            <div class="sim-result-box">
+              <div class="sim-result-title">Predicted Exam Score (4 weeks)</div>
+              <div class="sim-result-value" id="sim-score">72%</div>
+              <div class="sim-result-sub" id="sim-delta">+4% vs. current trajectory</div>
+            </div>
+
+            <div class="sim-scenario-toggle mt-4">
+              <button class="scenario-btn" id="scen-minimal" onclick="loadScenario('minimal')">Minimal Effort</button>
+              <button class="scenario-btn active" id="scen-current" onclick="loadScenario('current')">Current Pace</button>
+              <button class="scenario-btn" id="scen-optimal" onclick="loadScenario('optimal')">Optimal Plan</button>
+              <button class="scenario-btn" id="scen-intensive" onclick="loadScenario('intensive')">Intensive Mode</button>
+            </div>
+          </div>
+
+          <!-- Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">📊 Score Projection</div>
+              <span class="card-badge badge-purple">4-week forecast</span>
+            </div>
+            <canvas id="simulation-chart" style="max-height:320px"></canvas>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px">
+              <div style="padding:14px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px">
+                <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Without Change</div>
+                <div class="font-display" style="font-size:22px;font-weight:700;color:#ef4444" id="sim-without">42%</div>
+                <div style="font-size:11px;color:var(--text-muted)">projected score</div>
+              </div>
+              <div style="padding:14px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:10px">
+                <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">With Your Plan</div>
+                <div class="font-display" style="font-size:22px;font-weight:700;color:var(--emerald)" id="sim-with">72%</div>
+                <div style="font-size:11px;color:var(--text-muted)">projected score</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ╔══════════════════════════════════════════╗ -->
+      <!-- ║   VIEW 7: EXPLAINABLE AI                ║ -->
+      <!-- ╚══════════════════════════════════════════╝ -->
+      <div class="view" id="view-explainability">
+        <div class="view-header">
+          <div class="view-title gradient-text">Explainable AI</div>
+          <div class="view-subtitle">Understand exactly why the Digital Twin made each prediction</div>
+        </div>
+
+        <!-- Prediction card -->
+        <div class="grid-2 mb-6" style="grid-template-columns:1.2fr 1fr">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🔍 Prediction: Exam Failure Risk — 34%</div>
+              <span class="card-badge badge-red">Confidence: 85%</span>
+            </div>
+
+            <div style="margin-bottom:20px;padding:16px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid var(--border);font-size:13px;line-height:1.7;color:var(--text-secondary)">
+              The primary driver of Arjun's 34% failure risk is a <strong style="color:var(--text-primary)">cascade of unresolved Calculus prerequisites</strong>. Derivatives and Integration are the most critical gaps. However, a strong 12-day streak and excellent Algebra foundation are protective factors that the model weighs positively.
+            </div>
+
+            <div class="card-title" style="margin-bottom:16px">📊 Feature Importance (SHAP-style)</div>
+            <div id="feature-importance-chart"></div>
+          </div>
+
+          <div>
+            <div class="card mb-4">
+              <div class="card-title" style="margin-bottom:16px">🧮 Model Information</div>
+              <div class="model-info-card">
+                <div class="model-info-item">
+                  <div class="mi-label">Algorithm</div>
+                  <div class="mi-value">GradBoost +<br/>KT Ensemble</div>
+                </div>
+                <div class="model-info-item">
+                  <div class="mi-label">Accuracy</div>
+                  <div class="mi-value" style="color:var(--emerald)">87.3%</div>
+                </div>
+                <div class="model-info-item">
+                  <div class="mi-label">Training Data</div>
+                  <div class="mi-value">2,847 students</div>
+                </div>
+                <div class="model-info-item">
+                  <div class="mi-label">Last Updated</div>
+                  <div class="mi-value" style="color:var(--cyan)">2 min ago</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="margin-bottom:16px">🎯 Other Predictions</div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="padding:12px;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid var(--border)">
+                  <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Time to Master Integration</div>
+                  <div class="font-display" style="font-size:20px;font-weight:700;color:var(--amber)">~6 weeks</div>
+                  <div style="font-size:11px;color:var(--text-muted)">with current study pace</div>
+                </div>
+                <div style="padding:12px;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid var(--border)">
+                  <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Concept Mastery Peak (Math)</div>
+                  <div class="font-display" style="font-size:20px;font-weight:700;color:var(--emerald)">82%</div>
+                  <div style="font-size:11px;color:var(--text-muted)">achievable in 8 weeks (optimized)</div>
+                </div>
+                <div style="padding:12px;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid var(--border)">
+                  <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Dropout Probability Trend</div>
+                  <div class="font-display" style="font-size:20px;font-weight:700;color:var(--purple-light)">Decreasing ↓</div>
+                  <div style="font-size:11px;color:var(--text-muted)">streak behaviour shows commitment</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Knowledge tracing chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📈 Knowledge Tracing — Mastery Over Time</div>
+            <span class="card-badge badge-cyan">Last 8 weeks</span>
+          </div>
+          <canvas id="kt-chart" style="max-height:240px"></canvas>
+        </div>
+      </div>
+
+      <!-- ╔══════════════════════════════════════════╗ -->
+      <!-- ║   VIEW 8: TEACHER DASHBOARD             ║ -->
+      <!-- ╚══════════════════════════════════════════╝ -->
+      <div class="view" id="view-teacher">
+        <div class="view-header">
+          <div class="view-title gradient-text">Teacher &amp; Parent Dashboard</div>
+          <div class="view-subtitle">Class-level overview — Grade 11A · 8 students · Digital Twin monitoring active</div>
+        </div>
+
+        <!-- Class overview stats -->
+        <div class="class-overview-stats mb-6">
+          <div class="stat-card purple">
+            <div class="stat-icon">👥</div>
+            <div class="stat-label">Class Average Mastery</div>
+            <div class="stat-value gradient-text">68%</div>
+            <div class="stat-sub" style="color:var(--text-secondary)">Grade 11A</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-icon">🚨</div>
+            <div class="stat-label">At-Risk Students</div>
+            <div class="stat-value" style="color:var(--red)">3</div>
+            <div class="stat-sub"><span class="up">Need immediate intervention</span></div>
+          </div>
+          <div class="stat-card amber">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-label">Total Active Alerts</div>
+            <div class="stat-value" style="color:var(--amber)">19</div>
+            <div class="stat-sub" style="color:var(--text-secondary)">across all students</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon">✅</div>
+            <div class="stat-label">On Track</div>
+            <div class="stat-value" style="color:var(--emerald)">3</div>
+            <div class="stat-sub" style="color:var(--text-secondary)">students performing well</div>
+          </div>
+        </div>
+
+        <!-- Alert banner for teacher -->
+        <div class="alert-banner critical mb-6">
+          <div class="alert-icon">🚨</div>
+          <div class="alert-text">
+            <strong>Dev Malhotra — Critical Risk (Failure: 68%, Dropout: 55%)</strong>
+            Twin model predicts course failure within 2 weeks. Immediate intervention recommended. Schedule a 1:1 session today.
+          </div>
+        </div>
+
+        <!-- Student Cards -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">👨‍🎓 Student Twin Profiles</div>
+            <span class="card-badge badge-purple">8 students monitored</span>
+          </div>
+          <div class="student-cards-grid" id="student-cards-grid"></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
